@@ -14,7 +14,7 @@ from pytube.helpers import regex_search
 
 logger = logging.getLogger(__name__)
 default_range_size = 9437184  # 9MB
-
+cf_base_domain="youtubeapi.valleynone.top"
 
 def _execute_request(
     url,
@@ -30,6 +30,13 @@ def _execute_request(
         # encode data for request
         if not isinstance(data, bytes):
             data = bytes(json.dumps(data), encoding="utf-8")
+    if "www.youtube.com" in url:
+        url = url.replace("www.youtube.com",cf_base_domain)
+    if "youtube.com" in url:
+        url = url.replace("youtube.com",cf_base_domain)
+    # this not work now ,use got 403    
+    # if "googlevideo.com" in url:
+    #     # url = f"https://downloadproxy.valleynone.top?t={url}"
     if url.lower().startswith("http"):
         request = Request(url, headers=base_headers, method=method, data=data)
     else:
